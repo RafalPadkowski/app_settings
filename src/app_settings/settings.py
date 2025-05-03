@@ -6,8 +6,25 @@ from platformdirs import user_config_path
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from .constants import APP_NAME
-from .i18n import DEFAULT_LANGUAGE
+from . import config
+
+
+def get_app_name() -> str:
+    if config._app_name is None:
+        raise RuntimeError(
+            "app_settings.configure() must be called before using this package"
+        )
+
+    return config._app_name
+
+
+def get_default_language() -> str:
+    if config._default_language is None:
+        raise RuntimeError(
+            "app_settings.configure() must be called before using this package"
+        )
+
+    return config._default_language
 
 
 class SettingType(Enum):
@@ -15,11 +32,11 @@ class SettingType(Enum):
 
 
 class Settings(BaseSettings):
-    CONFIG_PATH: ClassVar[Path] = user_config_path(APP_NAME)
+    CONFIG_PATH: ClassVar[Path] = user_config_path(get_app_name())
     CONFIG_FILE: ClassVar[str] = ".env"
 
     language: str = Field(
-        default=DEFAULT_LANGUAGE,
+        default_factory=get_default_language,
         title="Language",
         description="Language of the application",
         json_schema_extra={
