@@ -1,6 +1,6 @@
 [project]
-name = "app-settings"
-version = "0.1.0"
+name = "app-settings-pydantic"
+version = "1.0.0"
 description = "A simple configuration management package using `pydantic-settings` and `platformdirs`"
 authors = [
     {name = "Rafal Padkowski", email = "rafaelp@poczta.onet.pl"},
