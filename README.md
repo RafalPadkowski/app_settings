@@ -1,4 +1,4 @@
-# app-settings-pydantic
+# app-settings
 
 A simple configuration management package using `pydantic-settings` and `platformdirs`.
 
@@ -14,7 +14,7 @@ This package allows you to define application settings in a `.env` file stored i
 ## Installation
 
 ```bash
-pip install app-settings-pydantic
+pip install git+https://github.com/RafalPadkowski/app_settings.git
 ```
 
 ## Usage
