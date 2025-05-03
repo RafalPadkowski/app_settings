@@ -2,7 +2,12 @@
 name = "app-settings"
 version = "0.1.0"
 description = "Add your description here"
+authors = [
+    {name = "Rafal Padkowski", email = "rafaelp@poczta.onet.pl"},
+]
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.13"
 dependencies = []
 
