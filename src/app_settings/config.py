@@ -1,3 +1,6 @@
+from pathlib import Path
+
+from platformdirs import user_config_path
 from pydantic_settings import SettingsConfigDict
 
 from .settings import AppSettings
@@ -12,7 +15,9 @@ def configure(app_name: str, default_language: str) -> None:
     _app_name = app_name
     _default_language = default_language
 
-    # Dynamically set model_config for Settings to use the right .env file
-    AppSettings.model_config = SettingsConfigDict(
-        env_file=str(AppSettings.get_config_file_path())
-    )
+    config_path: Path = user_config_path(app_name)
+    config_path.mkdir(parents=True, exist_ok=True)
+
+    config_file_path: Path = config_path / AppSettings.CONFIG_FILE
+    AppSettings.model_config = SettingsConfigDict(env_file=str(config_file_path))
+    AppSettings.CONFIG_FILE_PATH = config_file_path
