@@ -1,6 +1,6 @@
 from pydantic_settings import SettingsConfigDict
 
-from .settings import Settings
+from .settings import AppSettings
 
 _app_name: str | None = None
 _default_language: str | None = None
@@ -13,6 +13,6 @@ def configure(app_name: str, default_language: str) -> None:
     _default_language = default_language
 
     # Dynamically set model_config for Settings to use the right .env file
-    Settings.model_config = SettingsConfigDict(
-        env_file=str(Settings.get_config_file_path())
+    AppSettings.model_config = SettingsConfigDict(
+        env_file=str(AppSettings.get_config_file_path())
     )

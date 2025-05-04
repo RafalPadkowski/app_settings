@@ -1,7 +1,7 @@
 from .config import configure
-from .settings import Settings
+from .settings import AppSettings
 
 __all__ = [
     "configure",
-    "Settings",
+    "AppSettings",
 ]

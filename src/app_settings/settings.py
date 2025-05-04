@@ -31,7 +31,7 @@ class SettingType(Enum):
     OPTIONS = auto()
 
 
-class Settings(BaseSettings):
+class AppSettings(BaseSettings):
     CONFIG_FILE: ClassVar[str] = ".env"
 
     language: str = Field(
