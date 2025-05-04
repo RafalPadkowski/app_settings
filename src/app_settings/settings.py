@@ -32,7 +32,6 @@ class SettingType(Enum):
 
 
 class Settings(BaseSettings):
-    CONFIG_PATH: ClassVar[Path] = user_config_path(get_app_name())
     CONFIG_FILE: ClassVar[str] = ".env"
 
     language: str = Field(
@@ -48,12 +47,18 @@ class Settings(BaseSettings):
         },
     )
 
-    model_config = SettingsConfigDict(env_file=str(CONFIG_PATH / CONFIG_FILE))
+    # This will be overwritten by config.configure()
+    model_config: ClassVar[SettingsConfigDict] = SettingsConfigDict()
+
+    @classmethod
+    def get_config_path(cls) -> Path:
+        return user_config_path(get_app_name())
 
     @classmethod
     def get_config_file_path(cls) -> Path:
-        cls.CONFIG_PATH.mkdir(parents=True, exist_ok=True)
-        return cls.CONFIG_PATH / cls.CONFIG_FILE
+        config_path: Path = cls.get_config_path()
+        config_path.mkdir(parents=True, exist_ok=True)
+        return config_path / cls.CONFIG_FILE
 
     def save(self) -> None:
         config_file_path: Path = self.get_config_file_path()
