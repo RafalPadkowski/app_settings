@@ -4,8 +4,6 @@ from typing import Any
 from platformdirs import user_config_path
 from pydantic_settings import SettingsConfigDict
 
-from .settings import AppSettings
-
 defaults: dict[str, Any] = {
     "language": "en",
 }
@@ -19,6 +17,9 @@ def configure(app_name: str) -> None:
 
     global config_file_path
     config_file_path = config_path / ".env"
+
+    from .settings import AppSettings
+
     AppSettings.model_config = SettingsConfigDict(env_file=str(config_file_path))
 
 
