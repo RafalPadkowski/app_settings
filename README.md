@@ -21,12 +21,13 @@ pip install git+https://github.com/RafalPadkowski/app_settings.git
 
 ### 1. Configure the app
 
-Before using `AppSettings`, you must configure the package with app name and default language.
+Before using `AppSettings`, you must configure the package with app name and default values for settings.
 
 ```python
-from app_settings import configure
+import app_settings
 
-configure(app_name="my_app", default_language="en")
+DEFAULT_LANGUAGE = "en"
+app_settings.configure("my_app", language=DEFAULT_LANGUAGE)
 ```
 
 ### 2. Use the AppSettings class
