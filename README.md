@@ -21,13 +21,12 @@ pip install git+https://github.com/RafalPadkowski/app_settings.git
 
 ### 1. Configure the app
 
-Before using `AppSettings`, you must configure the package with app name and default values for settings.
+You must configure the package with app name.
 
 ```python
 import app_settings
 
-DEFAULT_LANGUAGE = "en"
-app_settings.configure("my_app", language=DEFAULT_LANGUAGE)
+app_settings.configure("my_app")
 ```
 
 ### 2. Use the AppSettings class
@@ -57,11 +56,11 @@ The configuration file is stored in the user config directory provided by `platf
 
 Currently, the settings class includes:
 
-- `language`: Application language (default from `configure()`, supports "en" and "pl")
+- `language`: Application language (default "en", supports "en" and "pl")
 
 ## Errors
 
-If `configure()` is not called before accessing `AppSettings`, a `RuntimeError` will be raised.
+If `configure()` is not called before saving `AppSettings`, a `RuntimeError` will be raised.
 
 ## License
 

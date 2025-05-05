@@ -12,7 +12,7 @@ class SettingType(Enum):
 
 class AppSettings(BaseSettings):
     language: str = Field(
-        default_factory=lambda: config.get_default_value("language"),
+        default=config.defaults["language"],
         title="Language",
         description="Language of the application",
         json_schema_extra={
@@ -25,6 +25,6 @@ class AppSettings(BaseSettings):
     )
 
     def save(self) -> None:
-        with open(config.config_file_path, "w") as f:
+        with open(config.get_config_file_path(), "w") as f:
             for key, value in self.model_dump().items():
                 f.write(f"{key.upper()}={value}\n")

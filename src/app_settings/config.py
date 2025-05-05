@@ -6,11 +6,14 @@ from pydantic_settings import SettingsConfigDict
 
 from .settings import AppSettings
 
-config_file_path: Path
-_defaults: dict[str, Any] = {}
+defaults: dict[str, Any] = {
+    "language": "en",
+}
+
+config_file_path: Path | None = None
 
 
-def configure(app_name: str, **defaults: Any) -> None:
+def configure(app_name: str) -> None:
     config_path: Path = user_config_path(app_name)
     config_path.mkdir(parents=True, exist_ok=True)
 
@@ -18,14 +21,11 @@ def configure(app_name: str, **defaults: Any) -> None:
     config_file_path = config_path / ".env"
     AppSettings.model_config = SettingsConfigDict(env_file=str(config_file_path))
 
-    _defaults.update(defaults)
 
-
-def get_default_value(key: str) -> Any:
-    try:
-        return _defaults[key]
-    except KeyError:
+def get_config_file_path() -> Path:
+    if config_file_path is None:
         raise RuntimeError(
-            f"app_settings.configure() must be called "
-            f"before using default value for '{key}'"
+            "app_settings.configure() must be called before using this package"
         )
+
+    return config_file_path
