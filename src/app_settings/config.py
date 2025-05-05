@@ -1,23 +1,31 @@
 from pathlib import Path
+from typing import Any
 
 from platformdirs import user_config_path
 from pydantic_settings import SettingsConfigDict
 
 from .settings import AppSettings
 
-_app_name: str | None = None
-_default_language: str | None = None
+config_file_path: Path
+_defaults: dict[str, Any] = {}
 
 
-def configure(app_name: str, default_language: str) -> None:
-    global _app_name, _default_language
-
-    _app_name = app_name
-    _default_language = default_language
-
+def configure(app_name: str, **defaults: Any) -> None:
     config_path: Path = user_config_path(app_name)
     config_path.mkdir(parents=True, exist_ok=True)
 
-    config_file_path: Path = config_path / AppSettings.CONFIG_FILE
+    global config_file_path
+    config_file_path = config_path / ".env"
     AppSettings.model_config = SettingsConfigDict(env_file=str(config_file_path))
-    AppSettings.CONFIG_FILE_PATH = config_file_path
+
+    _defaults.update(defaults)
+
+
+def get_default_value(key: str) -> Any:
+    try:
+        return _defaults[key]
+    except KeyError:
+        raise RuntimeError(
+            f"app_settings.configure() must be called "
+            f"before using default value for '{key}'"
+        )
